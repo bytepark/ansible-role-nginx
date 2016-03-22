@@ -22,4 +22,3 @@ resolver_timeout 10s;
 
 add_header X-Content-Type-Options "nosniff";
 add_header X-Frame-Options "SAMEORIGIN";
-
