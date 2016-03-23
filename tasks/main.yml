@@ -8,9 +8,9 @@
 - name: NGINX Plus | Adding sources.list deb-src url for NGINX
   lineinfile: dest=/etc/apt/sources.list line="deb-src http://nginx.org/packages/mainline/ubuntu/ trusty nginx"
 
-# - name: NGINX | Updating apt cache
-#   apt:
-#     update_cache: yes
+- name: NGINX | Updating apt cache
+  apt:
+    update_cache: yes
 
 - name: NGINX | Installing NGINX
   apt:
