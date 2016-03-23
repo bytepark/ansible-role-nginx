@@ -18,7 +18,7 @@
     state: latest
 
 - name: Generate dhparam file
-  command: openssl dhparam -out /etc/ssl/dhparam.pem 2048 creates=/etc/ssl/dhparam.pem
+  command: openssl dhparam -out /etc/ssl/dhparam.pem 4096 creates=/etc/ssl/dhparam.pem
 
 - name: ensure ssl dir exists
   become: true
