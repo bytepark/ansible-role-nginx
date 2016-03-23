@@ -1,6 +1,6 @@
 # ssl settings
-ssl_certificate      /etc/ssl/certs/ssl-cert-snakeoil.pem;
-ssl_certificate_key  /etc/ssl/private/ssl-cert-snakeoil.key;
+ssl_certificate      /etc/nginx/ssl/nginx.pem;
+ssl_certificate_key  /etc/nginx/ssl/nginx.key;
 ssl_session_timeout 1d;
 ssl_session_cache shared:SSL:50m;
 

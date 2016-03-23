@@ -1,17 +1,17 @@
 ---
 - name: NGINX | Adding NGINX signing key
   apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
- 
+
 - name: NGINX | Adding sources.list deb url for NGINX
   lineinfile: dest=/etc/apt/sources.list line="deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx"
- 
+
 - name: NGINX Plus | Adding sources.list deb-src url for NGINX
   lineinfile: dest=/etc/apt/sources.list line="deb-src http://nginx.org/packages/mainline/ubuntu/ trusty nginx"
- 
-- name: NGINX | Updating apt cache
-  apt:
-    update_cache: yes
- 
+
+# - name: NGINX | Updating apt cache
+#   apt:
+#     update_cache: yes
+
 - name: NGINX | Installing NGINX
   apt:
     pkg: nginx
@@ -20,19 +20,38 @@
 - name: Generate dhparam file
   command: openssl dhparam -out /etc/ssl/dhparam.pem 2048 creates=/etc/ssl/dhparam.pem
 
-- name: Ensures {{nginx.docroot}}/ dir exists
-  file: path={{nginx.docroot}} state=directory
+- name: ensure ssl dir exists
+  become: true
+  file: path={{ nginx_root }}/ssl state=directory
+
+- name: create self-signed SSL cert
+  become: true
+  shell: >
+    openssl req -x509 -nodes -subj '/
+    /C={{ ssl_c }}
+    /ST={{ ssl_st }}
+    /L={{ ssl_l }}
+    /O={{ ssl_o }}
+    /CN={{ ssl_cn }}
+    ' -days 365 -newkey rsa:2048 
+    -keyout /etc/nginx/ssl/nginx.key 
+    -out /etc/nginx/ssl/nginx.pem
+    creates=/etc/nginx/ssl/nginx.pem
+  notify: restart nginx
+
+- name: Ensures {{nginx_docroot}}/ dir exists
+  file: path={{nginx_docroot}} state=directory
 
 - name: Add SSL config
-  template: src=ssl.tpl dest=/etc/nginx/ssl.conf
+  template: src=ssl.tpl dest={{ nginx_root }}/ssl.conf
   notify: restart nginx
 
 - name: Set nginx user
-  lineinfile: "dest=/etc/nginx/nginx.conf state=present regexp='^user' line='user www-data;'"
+  lineinfile: "dest={{ nginx_root }}/nginx.conf state=present regexp='^user' line='user www-data;'"
   notify: restart nginx
 
 - name: Change default nginx site
-  template: src=default.tpl dest=/etc/nginx/conf.d/default.conf
+  template: src=default.tpl dest={{ nginx_root }}/conf.d/default.conf
   notify: restart nginx
 
 - name: NGINX | Starting NGINX

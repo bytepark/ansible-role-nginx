@@ -1,2 +1,13 @@
 ---
-# defaults file for ansible-bytepark-nginx
+#
+nginx_servername: bytepark.de
+nginx_root: /etc/nginx
+nginx_docroot: /var/www
+
+# self signed certificate options, replace with letsencrypt
+ssl_cn: bytepark.de
+ssl_c: DE
+ssl_st: Berlin
+ssl_l: Berlin
+ssl_o: IT
+
