@@ -22,7 +22,7 @@
 
 - name: ensure ssl dir exists
   become: true
-  file: path={{ nginx_root }}/ssl state=directory
+  file: path={{ nginx_root }}/ssl/{{ ssl_cn }} state=directory
 
 - name: create self-signed SSL cert
   become: true
@@ -34,9 +34,9 @@
     /O={{ ssl_o }}
     /CN={{ ssl_cn }}
     ' -days 365 -newkey rsa:2048 
-    -keyout /etc/nginx/ssl/nginx.key 
-    -out /etc/nginx/ssl/nginx.pem
-    creates=/etc/nginx/ssl/nginx.pem
+    -out /etc/nginx/ssl/{{ ssl_cn }}/cert.pem
+    -keyout /etc/nginx/ssl/{{ ssl_cn }}/privkey.key 
+    creates=/etc/nginx/ssl/{{ ssl_cn }}/cert.pem
   notify: restart nginx
 
 - name: Ensures {{nginx_docroot}}/ dir exists
