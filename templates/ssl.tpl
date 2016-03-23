@@ -1,6 +1,6 @@
 # ssl settings
-ssl_certificate      /etc/nginx/ssl/nginx.pem;
-ssl_certificate_key  /etc/nginx/ssl/nginx.key;
+ssl_certificate      /etc/nginx/ssl/{{ ssl_cn }}.pem;
+ssl_certificate_key  /etc/nginx/ssl/{{ ssl_cn }}.key;
 ssl_session_timeout 1d;
 ssl_session_cache shared:SSL:50m;
 
