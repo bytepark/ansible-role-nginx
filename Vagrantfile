@@ -1,5 +1,5 @@
 Vagrant.configure(2) do |config|
-  config.vm.define 'ansible-bytepark-base' do |machine|
+  config.vm.define 'ansible-role-nginx' do |machine|
     machine.vm.box = "ubuntu/precise32"
     #machine.vm.box = "ubuntu/trusty64"
 

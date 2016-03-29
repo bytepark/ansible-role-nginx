@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bytepark/ansible-role-nginx.svg?branch=master)](https://travis-ci.org/bytepark/ansible-role-nginx)
+
 ansible-role-nginx
 =========
 
@@ -17,7 +19,7 @@ Available variables are listed below, along with default values:
 	nginx_root: /etc/nginx
 	nginx_docroot: /var/www
 
-	# self signed certificate options(TODO: replace with letsencrypt)
+	# self signed certificate options (TODO: replace with letsencrypt)
 	ssl_cn: bytepark.de
 	ssl_c: DE
 	ssl_st: Berlin
@@ -35,7 +37,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-         - { role: bytepark.bytepark-base }
+         - { role: bytepark.nginx }
       vars:
         nginx_servername: bytepark.de
 		nginx_root: /etc/nginx
