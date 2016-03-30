@@ -51,6 +51,10 @@
   lineinfile: "dest={{ nginx_root }}/nginx.conf state=present regexp='^user' line='user www-data;'"
   notify: restart nginx
 
+- name: Set secure nginx config
+  template: src=config.tpl dest={{ nginx_root}}/nginx.conf
+  notify: restart nginx
+
 - name: Change default nginx site
   template: src=default.tpl dest={{ nginx_root }}/conf.d/default.conf
   notify: restart nginx

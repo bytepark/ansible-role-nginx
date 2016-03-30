@@ -2,7 +2,7 @@
 #
 nginx_servername: bytepark.de
 nginx_root: /etc/nginx
-nginx_docroot: /var/www
+nginx_docroot: /usr/share/nginx/html
 
 # self signed certificate options, replace with letsencrypt
 ssl_cn: bytepark.de
