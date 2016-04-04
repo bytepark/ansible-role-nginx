@@ -5,9 +5,9 @@ nginx_root: /etc/nginx
 nginx_docroot: /usr/share/nginx/html
 
 # self signed certificate options, replace with letsencrypt
-ssl_cn: bytepark.de
-ssl_c: DE
-ssl_st: Berlin
-ssl_l: Berlin
-ssl_o: IT
+nginx_ssl_cn: bytepark.de
+nginx_ssl_c: DE
+nginx_ssl_st: Berlin
+nginx_ssl_l: Berlin
+nginx_ssl_o: IT
 

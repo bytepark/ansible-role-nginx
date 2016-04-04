@@ -20,11 +20,11 @@ Available variables are listed below, along with default values:
 	nginx_docroot: /var/www
 
 	# self signed certificate options (TODO: replace with letsencrypt)
-	ssl_cn: bytepark.de
-	ssl_c: DE
-	ssl_st: Berlin
-	ssl_l: Berlin
-	ssl_o: IT
+	nginx_ssl_cn: bytepark.de
+	nginx_ssl_c: DE
+	nginx_ssl_st: Berlin
+	nginx_ssl_l: Berlin
+	nginx_ssl_o: IT
 
 
 Dependencies
@@ -44,11 +44,11 @@ Example Playbook
 		nginx_docroot: /var/www
 
 		# self signed certificate options(TODO: replace with letsencrypt)
-		ssl_cn: bytepark.de
-		ssl_c: DE
-		ssl_st: Berlin
-		ssl_l: Berlin
-		ssl_o: IT
+		nginx_ssl_cn: bytepark.de
+		nginx_ssl_c: DE
+		nginx_ssl_st: Berlin
+		nginx_ssl_l: Berlin
+		nginx_ssl_o: IT
 
 License
 -------

@@ -23,21 +23,21 @@
 
 - name: ensure ssl dir exists
   become: true
-  file: path={{ nginx_root }}/ssl/{{ ssl_cn }} state=directory
+  file: path={{ nginx_root }}/ssl/{{ nginx_ssl_cn }} state=directory
 
 - name: create self-signed SSL cert
   become: true
   shell: >
     openssl req -x509 -nodes -subj '/
-    /C={{ ssl_c }}
-    /ST={{ ssl_st }}
-    /L={{ ssl_l }}
-    /O={{ ssl_o }}
-    /CN={{ ssl_cn }}
+    /C={{ nginx_ssl_c }}
+    /ST={{ nginx_ssl_st }}
+    /L={{ nginx_ssl_l }}
+    /O={{ nginx_ssl_o }}
+    /CN={{ nginx_ssl_cn }}
     ' -days 365 -newkey rsa:2048 
-    -out /etc/nginx/ssl/{{ ssl_cn }}/cert.pem
-    -keyout /etc/nginx/ssl/{{ ssl_cn }}/privkey.key 
-    creates=/etc/nginx/ssl/{{ ssl_cn }}/cert.pem
+    -out /etc/nginx/ssl/{{ nginx_ssl_cn }}/cert.pem
+    -keyout /etc/nginx/ssl/{{ nginx_ssl_cn }}/privkey.key 
+    creates=/etc/nginx/ssl/{{ nginx_ssl_cn }}/cert.pem
   notify: restart nginx
 
 - name: Ensures {{nginx_docroot}}/ dir exists
