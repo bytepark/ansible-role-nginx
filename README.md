@@ -28,7 +28,7 @@ Available variables are listed below, along with default values:
 
 	# nginx settings
 	nginx_enable_gzip: true
-	nginx_expiration_time: 30d
+	nginx_expiration_time: 365d
 
 
 Dependencies
