@@ -3,6 +3,8 @@
 nginx_servername: bytepark.de
 nginx_root: /etc/nginx
 nginx_docroot: /usr/share/nginx/html
+nginx_user: www-data
+nginx_group: www-data
 
 # self signed certificate options, replace with letsencrypt
 nginx_ssl_cn: bytepark.de
@@ -13,3 +15,5 @@ nginx_ssl_o: IT
 
 # nginx settings
 nginx_enable_gzip: true
+## expiration time for static content
+nginx_expiration_time: 365d

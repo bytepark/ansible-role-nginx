@@ -52,7 +52,7 @@
   notify: restart nginx
 
 - name: Change default nginx site
-  template: src=default.tpl dest={{ nginx_root }}/conf.d/default.conf
+  template: src=default_site.conf.j2 dest={{ nginx_root }}/conf.d/default.conf
   notify: restart nginx
 
 - name: NGINX | Starting NGINX
