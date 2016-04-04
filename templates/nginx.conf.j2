@@ -31,7 +31,9 @@ http {
 
     keepalive_timeout  65;
 
-    #gzip  on;
+    {% if nginx_enable_gzip == true %}
+    gzip  on;
+    {% endif%}
 
     include /etc/nginx/conf.d/*.conf;
 }

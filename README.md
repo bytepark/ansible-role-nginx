@@ -26,6 +26,9 @@ Available variables are listed below, along with default values:
 	nginx_ssl_l: Berlin
 	nginx_ssl_o: IT
 
+	# nginx settings
+	nginx_enable_gzip: true
+
 
 Dependencies
 ------------
