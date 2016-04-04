@@ -17,15 +17,15 @@
     pkg: nginx
     state: latest
 
-- name: Generate dhparam file
+- name: NGINX | Generate dhparam file
   # -dsaparm => https://goo.gl/OkbDqi for faster generation
   command: openssl dhparam -dsaparam -out /etc/ssl/dhparam.pem 4096 creates=/etc/ssl/dhparam.pem
 
-- name: ensure ssl dir exists
+- name: NGINX | Ensure ssl dir exists
   become: true
   file: path={{ nginx_root }}/ssl/{{ nginx_ssl_cn }} state=directory
 
-- name: create self-signed SSL cert
+- name: NGINX | Create self-signed SSL cert
   become: true
   shell: >
     openssl req -x509 -nodes -subj '/
@@ -40,18 +40,18 @@
     creates=/etc/nginx/ssl/{{ nginx_ssl_cn }}/cert.pem
   notify: restart nginx
 
-- name: Ensures {{nginx_docroot}}/ dir exists
+- name: NGINX | Ensures {{nginx_docroot}}/ dir exists
   file: path={{nginx_docroot}} state=directory
 
-- name: Add SSL config
+- name: NGINX | Add SSL config
   template: src=ssl.tpl dest={{ nginx_root }}/ssl.conf
   notify: restart nginx
 
-- name: Set secure nginx config
+- name: NGINX | Set secure nginx config
   template: src=nginx.conf.j2 dest={{ nginx_root}}/nginx.conf
   notify: restart nginx
 
-- name: Change default nginx site
+- name: NGINX | Change default nginx site
   template: src=default_site.conf.j2 dest={{ nginx_root }}/conf.d/default.conf
   notify: restart nginx
 
