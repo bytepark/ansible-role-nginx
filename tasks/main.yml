@@ -1,10 +1,7 @@
 ---
 - include: installation.yml
 - include: security.yml
-
-- name: NGINX | Change default nginx site
-  template: src=default_site.conf.j2 dest={{ nginx_root }}/conf.d/default.conf
-  notify: restart nginx
+- include: configuration.yml
 
 - name: NGINX | Starting NGINX
   service:

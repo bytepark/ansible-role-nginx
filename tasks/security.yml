@@ -24,17 +24,3 @@
     creates=/etc/nginx/ssl/{{ nginx_ssl_cn }}/cert.pem
   notify: restart nginx
   tags: [installation,security,nginx]
-
-- name: NGINX | Ensures {{nginx_docroot}}/ dir exists
-  file: path={{nginx_docroot}} state=directory
-  tags: [installation,security,nginx]
-
-- name: NGINX | Add SSL config
-  template: src=ssl.tpl dest={{ nginx_root }}/ssl.conf
-  notify: restart nginx
-  tags: [installation,security,nginx]
-
-- name: NGINX | Set secure nginx config
-  template: src=nginx.conf.j2 dest={{ nginx_root}}/nginx.conf
-  notify: restart nginx
-  tags: [installation,security,nginx]

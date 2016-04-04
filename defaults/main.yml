@@ -1,8 +1,6 @@
 ---
-#
-nginx_servername: bytepark.de
+# Nginx Config
 nginx_root: /etc/nginx
-nginx_docroot: /usr/share/nginx/html
 nginx_user: www-data
 nginx_group: www-data
 
@@ -17,3 +15,18 @@ nginx_ssl_o: IT
 nginx_enable_gzip: true
 ## expiration time for static content
 nginx_expiration_time: 365d
+
+# vhost settings
+nginx_sites:
+- nginx_servername: "bytepark.de"
+  nginx_port: "80"
+  nginx_docroot: "/usr/share/nginx/html"
+  nginx_index: "index.html index.php"
+
+  # Cache Settings
+  nginx_expiration_time: 365d
+
+  # SSL Settings
+  nginx_enable_ssl: true
+
+nginx_remove_sites: []

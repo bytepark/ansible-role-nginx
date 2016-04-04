@@ -15,7 +15,7 @@ Role Variables
 
 Available variables are listed below, along with default values:
 	
-	nginx_servername: bytepark.de
+	nginx_port_server: "80 bytepark.de"
 	nginx_root: /etc/nginx
 	nginx_docroot: /var/www
 
