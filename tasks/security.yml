@@ -6,21 +6,23 @@
 
 - name: NGINX | Ensure ssl dir exists
   become: true
-  file: path={{ nginx_root }}/ssl/{{ nginx_ssl_cn }} state=directory
+  file: path={{ nginx_root }}/ssl/{{ item.nginx_ssl_cn }} state=directory
+  with_items: "{{ nginx_sites }}"
   tags: [installation,security,nginx]
 
 - name: NGINX | Create self-signed SSL cert
   become: true
   shell: >
     openssl req -x509 -nodes -subj '/
-    /C={{ nginx_ssl_c }}
-    /ST={{ nginx_ssl_st }}
-    /L={{ nginx_ssl_l }}
-    /O={{ nginx_ssl_o }}
-    /CN={{ nginx_ssl_cn }}
+    /C={{ item.nginx_ssl_c }}
+    /ST={{ item.nginx_ssl_st }}
+    /L={{ item.nginx_ssl_l }}
+    /O={{ item.nginx_ssl_o }}
+    /CN={{ item.nginx_ssl_cn }}
     ' -days 365 -newkey rsa:2048 
-    -out /etc/nginx/ssl/{{ nginx_ssl_cn }}/cert.pem
-    -keyout /etc/nginx/ssl/{{ nginx_ssl_cn }}/privkey.key 
-    creates=/etc/nginx/ssl/{{ nginx_ssl_cn }}/cert.pem
+    -out /etc/nginx/ssl/{{ item.nginx_ssl_cn }}/cert.pem
+    -keyout /etc/nginx/ssl/{{ item.nginx_ssl_cn }}/privkey.key 
+    creates=/etc/nginx/ssl/{{ item.nginx_ssl_cn }}/cert.pem
+  with_items: "{{ nginx_sites }}"
   notify: restart nginx
   tags: [installation,security,nginx]
