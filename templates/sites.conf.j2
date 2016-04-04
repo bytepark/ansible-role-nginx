@@ -19,12 +19,16 @@ server {
     }   
     {% endif %}
 
-    error_page 404 /404.html;
 
-    error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-        root /usr/share/nginx/www;
-    }
+    {% if vhost.error_page is defined %}
+    error_page {{ vhost.error_page }};
+    {% endif %}
+    {% if vhost.access_log is defined %}
+    access_log {{ vhost.access_log }};
+    {% endif %}
+    {% if vhost.error_log is defined %}
+    error_log {{ vhost.error_log }} error;
+    {% endif %}
 
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;

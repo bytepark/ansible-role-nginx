@@ -23,6 +23,10 @@ nginx_sites:
   nginx_docroot: "/usr/share/nginx/html"
   nginx_index: "index.html index.php"
 
+  error_page: ""
+  access_log: ""
+  error_log: ""
+
   # Cache Settings
   nginx_enable_caching: true
   nginx_expiration_time: 365d
