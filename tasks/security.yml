@@ -8,6 +8,7 @@
   become: true
   file: path={{ nginx_root }}/ssl/{{ item.nginx_ssl_cn }} state=directory
   with_items: "{{ nginx_sites }}"
+  when: item.nginx_ssl_cn is defined
   tags: [installation,security,nginx]
 
 - name: NGINX | Create self-signed SSL cert
@@ -24,5 +25,6 @@
     -keyout /etc/nginx/ssl/{{ item.nginx_ssl_cn }}/privkey.key 
     creates=/etc/nginx/ssl/{{ item.nginx_ssl_cn }}/cert.pem
   with_items: "{{ nginx_sites }}"
+  when: item.nginx_ssl_cn is defined
   notify: restart nginx
   tags: [installation,security,nginx]
