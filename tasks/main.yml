@@ -1,5 +1,6 @@
 ---
 - include: installation.yml
+- include: directories.yml
 - include: security.yml
 - include: configuration.yml
 
