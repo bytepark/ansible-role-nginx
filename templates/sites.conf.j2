@@ -20,14 +20,17 @@ server {
     {% endif %}
 
 
-    {% if vhost.error_page is defined %}
-    error_page {{ vhost.error_page }};
+    {% if vhost.nginx_error_page is defined %}
+
+    error_page {{ vhost.nginx_error_page }};
     {% endif %}
-    {% if vhost.access_log is defined %}
-    access_log {{ vhost.access_log }};
+    {% if vhost.nginx_access_log is defined %}
+
+    access_log {{ vhost.nginx_access_log }};
     {% endif %}
-    {% if vhost.error_log is defined %}
-    error_log {{ vhost.error_log }} error;
+    {% if vhost.nginx_error_log is defined %}
+
+    error_log {{ vhost.nginx_error_log }} error;
     {% endif %}
 
     location ~ \.php$ {
