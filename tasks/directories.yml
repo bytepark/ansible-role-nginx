@@ -19,6 +19,6 @@
 
 - name: NGINX | Ensure document root exists
   become: true
-  file: path={{ nginx_doc_root }}/{{ item.nginx_vhost }} state=directory owner=root group=root
+  file: path={{ nginx_doc_root }}/{{ item.nginx_vhost }}/app/web state=directory owner=root group=root
   with_items: "{{ nginx_sites }}"
   tags: [configuration,nginx]

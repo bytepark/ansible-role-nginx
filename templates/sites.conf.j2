@@ -1,53 +1,26 @@
 {% for vhost in nginx_sites %}
 server {
     listen {{ vhost.nginx_port | default('80') }};
+    listen [::]:{{ vhost.nginx_port | default('80') }};
     server_name {{ vhost.nginx_servername | default('localhost') }};
 
-    root {{ nginx_doc_root }}/{{ vhost.nginx_vhost }};
-
-    index {{ vhost.index | default('index.html index.htm') }};
-    
+    #include /etc/nginx/letsencrypt.conf;
+    j
     location / {
-        try_files $uri $uri/ /index.php?$query_string;
+        rewrite     ^(.*)   https://{{ vhost.nginx_vhost }}$1 permanent;
     }
-
-    {% if vhost.nginx_enable_caching is defined and true %}
-        
-
-    location ~* \.(?:ico|css|js|gif|jpe?g|png)$ {
-        expires {{ vhost.nginx_expiration_time }};
-    }   
-    {% endif %}
-
-
-    {% if vhost.nginx_error_page is defined %}
-
-    error_page {{ vhost.nginx_error_page }};
-    {% endif %}
-    {% if vhost.nginx_access_log is defined %}
-
-    access_log {{ vhost.nginx_access_log }}/{{ vhost.nginx_vhost }}/access.log;
-    {% endif %}
-    {% if vhost.nginx_error_log is defined %}
-
-    error_log {{ vhost.nginx_error_log }}/{{ vhost.nginx_vhost }}/error.log error;
-    {% endif %}
-
-    location ~ \.php$ {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
-
-    {% if vhost.nginx_enable_ssl is defined and true %}
-
-    listen  443 ssl http2;
+}
+{% if vhost.nginx_enable_ssl is defined and true %}
+server {    
+    listen {{ vhost.nginx_ssl_port | default('443') }} ssl;
+    listen [::]:{{ vhost.nginx_ssl_port | default('443') }} ssl;
+    server_name {{ vhost.nginx_servername | default('localhost') }};
 
     # ssl settings
     ssl_certificate      /etc/nginx/ssl/{{ vhost.nginx_ssl_cn }}/cert.pem;
     ssl_certificate_key  /etc/nginx/ssl/{{ vhost.nginx_ssl_cn }}/privkey.key;
+    #ssl_trusted_certificate /etc/ssl/certs/byteflare.de/fullchain.pem;
+
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:50m;
 
@@ -69,7 +42,54 @@ server {
 
     add_header X-Content-Type-Options "nosniff";
     add_header X-Frame-Options "SAMEORIGIN";
+
+    #include /etc/nginx/letsencrypt.conf;
+
+    location / {
+        root   {{ nginx_doc_root }}/{{ vhost.nginx_vhost }}/app/web;
+        index  index.html index.htm index.php;
+        try_files $uri $uri/ /index.php;
+    }
+
+
+    {% if vhost.nginx_enable_caching is defined and true %}
+        
+
+    location ~* \.(?:ico|css|js|gif|jpe?g|png)$ {
+        expires {{ vhost.nginx_expiration_time }};
+    }   
     {% endif %}
 
+
+    {% if vhost.nginx_error_page is defined %}
+
+    error_page {{ vhost.nginx_error_page }};
+    {% else %}
+    
+    # redirect server error pages to the static page /50x.html
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    {% endif %}
+    {% if vhost.nginx_access_log is defined %}
+
+    access_log {{ vhost.nginx_access_log }}/{{ vhost.nginx_vhost }}/access.log;
+    {% endif %}
+    {% if vhost.nginx_error_log is defined %}
+
+    error_log {{ vhost.nginx_error_log }}/{{ vhost.nginx_vhost }}/error.log error;
+    {% endif %}
+
+    location ~ \.php$ {
+        root   {{ nginx_doc_root }}/{{ vhost.nginx_vhost }}/app/web;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/fpm-{{ vhost.nginx_vhost }}.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME  /app/web$fastcgi_script_name;
+    }
+    
 }
+{% endif %}
 {% endfor %}

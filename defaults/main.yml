@@ -34,6 +34,7 @@ nginx_sites:
 
   # SSL Settings
   nginx_enable_ssl: true
+  nginx_ssl_port: "443"
   nginx_ssl_cn: bytepark.de
   nginx_ssl_c: DE
   nginx_ssl_st: Berlin
