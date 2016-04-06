@@ -5,7 +5,7 @@ server {
     server_name {{ vhost.nginx_servername | default('localhost') }};
 
     #include /etc/nginx/letsencrypt.conf;
-    j
+    
     location / {
         rewrite     ^(.*)   https://{{ vhost.nginx_vhost }}$1 permanent;
     }
@@ -65,7 +65,7 @@ server {
 
     error_page {{ vhost.nginx_error_page }};
     {% else %}
-    
+
     # redirect server error pages to the static page /50x.html
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {
