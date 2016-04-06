@@ -14,7 +14,7 @@
 - name: NGINX | Updating apt cache
   apt:
     update_cache: yes
-  tags: [installation,nginx]
+  tags: [update,installation,nginx]
 
 - name: NGINX | Installing NGINX
   apt:
