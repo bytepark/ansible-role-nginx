@@ -3,7 +3,7 @@ server {
     listen {{ vhost.nginx_port | default('80') }};
     server_name {{ vhost.nginx_servername | default('localhost') }};
 
-    root {{ vhost.nginx_docroot | default('/usr/share/nginx/html') }};
+    root {{ nginx_doc_root }}/{{ vhost.nginx_vhost }} | default('/usr/share/nginx/html') }};
 
     index {{ vhost.index | default('index.html index.htm') }};
     

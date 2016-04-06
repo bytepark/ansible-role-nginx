@@ -4,6 +4,7 @@ nginx_root: /etc/nginx
 nginx_user: www-data
 nginx_group: www-data
 nginx_log_dir: /var/log/nginx
+nginx_doc_root: /var/www
 # self signed certificate options, replace with letsencrypt
 # nginx_ssl_cn: bytepark.de
 # nginx_ssl_c: DE
@@ -21,7 +22,6 @@ nginx_sites:
 - nginx_vhost: bytepark.de
   nginx_servername: "bytepark.de www.bytepark.de" # default: localhost
   nginx_port: "80" # default: 80
-  nginx_docroot: "/usr/share/nginx/html"
   nginx_index: "index.html index.php"
 
  #nginx_error_page: ""
